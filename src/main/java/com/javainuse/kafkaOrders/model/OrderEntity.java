@@ -1,11 +1,13 @@
 package com.javainuse.kafkaOrders.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class OrderEntity {
 	@Id
+	@GeneratedValue
 	private int id;
 
 	private String desc;
@@ -16,9 +18,8 @@ public class OrderEntity {
 		super();
 	}
 
-	public OrderEntity(int id, String desc, String status) {
+	public OrderEntity(String desc, String status) {
 		super();
-		this.id = id;
 		this.desc = desc;
 		this.status = status;
 	}

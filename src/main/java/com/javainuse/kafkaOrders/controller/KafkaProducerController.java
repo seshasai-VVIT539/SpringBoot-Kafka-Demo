@@ -1,6 +1,8 @@
 package com.javainuse.kafkaOrders.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,18 +20,18 @@ import com.javainuse.kafkaOrders.service.OrderService;
 public class KafkaProducerController {
 	@Autowired
 	private KafkaProducerService producerService;
-	
+
 	@Autowired
 	private OrderService orderService;
 
 	@PostMapping(value = "/publish")
-	public OrderEntity sendMessageToKafkaTopic(@RequestParam("message") String message,
-			@RequestBody OrderEntity order) {
-		return this.producerService.sendMessage(new OrderEntity(order.getId(), order.getDesc(), order.getStatus()));
+	public ResponseEntity<OrderEntity> sendMessageToKafkaTopic(@RequestBody OrderEntity order) throws Exception {
+		return new ResponseEntity<OrderEntity>(
+				this.producerService.sendMessage(new OrderEntity(order.getDesc(), order.getStatus())), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/consume/{id}")
-	public OrderEntity getOrderById(@PathVariable int id) {
-		return orderService.getOrderById(id);
+	public ResponseEntity<OrderEntity> getOrderById(@PathVariable int id) {
+		return new ResponseEntity<OrderEntity>(orderService.getOrderById(id), HttpStatus.OK);
 	}
 }

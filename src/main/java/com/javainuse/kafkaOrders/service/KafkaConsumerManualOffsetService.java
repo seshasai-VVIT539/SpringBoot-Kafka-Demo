@@ -11,10 +11,13 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.listener.AcknowledgingMessageListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.retry.annotation.Backoff;
+import org.springframework.stereotype.Service;
 
 import com.javainuse.kafkaOrders.model.OrderEntity;
 import com.javainuse.kafkaOrders.util.AppConstants;
 
+
+@Service
 public class KafkaConsumerManualOffsetService implements AcknowledgingMessageListener<String, String> {
 	private final Logger logger = LoggerFactory.getLogger(KafkaConsumerManualOffsetService.class);
 
